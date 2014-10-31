@@ -1,0 +1,80 @@
+grunt memo
+
+ビルドツール
+インストールはnpmを利用する。
+
+npm install -g grunt-cli
+grunt-cliはgruntの機能は持たない。
+
+1.プロジェクトディレクトリでpackage.jsonを作成
+  nodeベースライブラリ管理の設定ファイルみたいなもの
+  gruntのパッケージ管理する
+{
+  "name": "grunt-start",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0"
+  }
+}
+
+grunt本体とプラグインをセットする
+プラグインはここで機能と使い方を確認
+http://gruntjs.com/plugins
+
+2.Gruntfile.jsの作成
+JavaScriptでプロジェクトルートへ配置すること
+jsの文法
+coffeeでも書けるよ
+
+module.exports = function(grunt) {
+
+  // Project configuration.
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      build: {
+        src: 'src/<%= pkg.name %>.js',
+        dest: 'build/<%= pkg.name %>.min.js'
+      }
+    }
+  });
+
+  // Load the plugin that provides the "uglify" task.
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  // Default task(s).
+  grunt.registerTask('default', ['uglify']);
+
+};
+
+module.exports = function(grunt){
+この中に全ての設定を書け
+}
+
+grunt.initConfig(
+  {
+    このオブジェクトにプラグインのタスクの設定を書け
+    pkg: grunt.file.readJSON('package.json'),
+  }  
+)
+
+タスクの読み込み
+grunt.loadNpmTasks('grunt-contrib-uglify');
+
+// デフォルトタスク
+grunt.registerTask('default', ['uglify']);
+コマンドラインで
+gruntと実行した時のタスク
+grunt default
+grunt uglify
+と同義
+
+
+
+
