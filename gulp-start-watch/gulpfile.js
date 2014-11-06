@@ -11,3 +11,8 @@ gulp.task('browser-sync', function() {
         }
     });
 });
+
+gulp.task('watch', ['browser-sync'], function() {
+    gulp.watch('app/scripts/**/*.js', browserSync.reload);
+    gulp.watch('app/**/*.html', browserSync.reload);
+});

@@ -1,9 +1,9 @@
 (function($) {
     var hello = function() {
-        console.log('Hello FOO!!!!');
+        console.log('Hello MIYA!!!!');
     };
     $(function() {
-        $('.foo-hello').click(function(e) {
+        $('.main-hello').click(function(e) {
             hello();
         });
     })

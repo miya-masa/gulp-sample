@@ -1,14 +1,11 @@
-(function() {
+(function($) {
     'use strict';
-    var helloName = function(name) {
-        return 'Hello' + name + '!!!';
+    var hello = function() {
+        console.log('Hello MIYA!!!!');
     };
-    var name = " miya";
-    console.log('Hello World!!');
-    console.log(helloName(name));
     $(function() {
-        $('.test-div').click(function() {
-            console.log($(this).text());
+        $('.main-hello').click(function() {
+            hello();
         });
-    })
-})();
+    });
+})(jQuery);

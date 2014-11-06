@@ -1,3 +1,10 @@
-var foo = require('./foo.js');
-console.log(foo('MIYA'));
-
+(function($) {
+    var hello = function() {
+        console.log('Hello MAIN!!!!');
+    };
+    $(function() {
+        $('.main-hello').click(function(e) {
+            hello();
+        });
+    })
+})(jQuery);

@@ -4,26 +4,13 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 var del = require('del');
-var sourcemaps = require('gulp-sourcemaps');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
-var es = require('event-stream');
-
-//jshintのタスク.ライブラリとソースが分離するため別タスクで切り出す
-gulp.task('jshint', function() {
-    return gulp.src(['./app/scripts/**/*.js'])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter(stylish));
-});
 
 //ビルドタスク ここではscripts内のファイルを集めて
 //連結とminify化
-gulp.task('scripts', ['jshint'], function() {
+gulp.task('scripts', function() {
     return gulp.src(['./app/lib/**/*.js', './app/scripts/**/*.js'])
-        .pipe(sourcemaps.init())
         .pipe(concat('all.js'))
         .pipe(uglify())
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./dist/scripts'));
 });
 //htmlをdistに移動

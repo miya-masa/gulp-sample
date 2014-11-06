@@ -9,7 +9,6 @@
   "author": "miya",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^1.6.3",
     "gulp": "^3.8.9"
   }
 }
