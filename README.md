@@ -1,5 +1,5 @@
-# プロジェクトの作成
----
+# gulpチュートリアル
+## プロジェクトの作成
 
 #### nodeをインストール
 nodeのWebサイトからインストール
@@ -18,8 +18,7 @@ git init
 npm init
 ```
 
-# gulpを触ってみよう
----
+## gulpを触ってみよう
 #### gulpをインストール
 \-globalはマシンで一回だけでOK
 ```sh
@@ -55,8 +54,7 @@ gulp
 gulp mytask
 ```
 
-# gulpで今までの開発
----
+## gulpで今までの開発
 
 jquery.jsとmain.jsとfoo.jsとhtmlも用意。TODO
 
@@ -104,8 +102,7 @@ gulp watch
 ```
 jsを保存してみて、画面が更新されたら成功。
 
-# gulpでビルド
----
+## gulpでビルド
 
 gulpを利用して、
 
@@ -187,12 +184,12 @@ gulp
 ```
 ビルド出来ました？
 
-# gulpで開発
----
+## gulpで開発
 
 #### より良くするために
 
 圧縮された状態だとデバッグやりづらい(sourcemap)
+
 
 静的検査とかもやりたい(JSHint)
 
@@ -203,7 +200,62 @@ gulp
 
 #### pluginの準備
 ```sh
-npm install jshint-stylish gulp-sourcemaps --save-dev
+npm install gulp-jshint jshint-stylish gulp-sourcemaps --save-dev
+```
+
+#### jshintのタスク設定
+
+1. jshint実行用のタスク作成
+1. scriptのビルドの依存に設定する
+
+``` javascript
+ // ...省略
+ var jshint = require('gulp-jshint');
+ // 表示を見やすくする
+ var stylish = require('jshint-stylish');
+ 
+ //jshintのタスク.ライブラリとソースが分離するため別タスクで切り出す
+ gulp.task('jshint', function() {
+     // 対象のscriptは/scripts/以下
+     return gulp.src(['./app/scripts/**/*.js'])
+         // 設定ファイルを指定
+         .pipe(jshint('.jshintrc'))
+         // 表示形式
+         .pipe(jshint.reporter(stylish));
+ });
+
+ // ...省略
+ // 依存関係にjshintを追加
+ gulp.task('scripts', ['jshint'], function() {
+   // ...省略
+ });
+ // ...省略
+```
+
+#### sourcemapのタスク設定
+
+scriptsのビルドタスクでsourcemapの設定を行う
+
+``` javascript
+ // ...省略
+ var sourcemaps = require('gulp-sourcemaps');
+ // ...省略
+ gulp.task('scripts', ['jshint'], function() {
+     return gulp.src(['./app/lib/**/*.js', './app/scripts/**/*.js'])
+         // sourcemapをするための初期設定
+         .pipe(sourcemaps.init())
+         .pipe(concat('all.js'))
+         .pipe(uglify())
+         // sourcemapの出力
+         .pipe(sourcemaps.write())
+         .pipe(gulp.dest('./dist/scripts'));
+ });
+```
+
+#### 実行
+
+``` sh
+gulp watch
 ```
 
 ２．CommonJSを試す
