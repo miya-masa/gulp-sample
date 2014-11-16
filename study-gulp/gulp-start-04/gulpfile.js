@@ -11,8 +11,10 @@ var es = require('event-stream');
 //連結とminify化
 gulp.task('scripts', function () {
   return es.merge(
+    // ライブラリの移動
     gulp.src(['./app/lib/**/*.js'])
     .pipe(gulp.dest('./dist/scripts/lib')),
+    // スクリプトの圧縮
     gulp.src(['./app/scripts/**/*.js'])
     .pipe(concat('all.js'))
     .pipe(uglify())
