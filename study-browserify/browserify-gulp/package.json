@@ -1,0 +1,23 @@
+{
+  "name": "gulp-start",
+  "version": "0.0.1",
+  "description": "gulpstart-project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "miya",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "~3.8.10",
+    "browser-sync": "~1.6.5",
+    "run-sequence": "~1.0.1",
+    "vinyl-source-stream": "~1.0.0",
+    "watchify": "~2.1.1",
+    "browserify": "~6.2.0",
+    "vinyl-buffer": "~1.0.0"
+  },
+  "dependencies": {
+    "uniq": "~1.0.1"
+  }
+}

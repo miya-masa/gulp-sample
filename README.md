@@ -23,6 +23,7 @@ npm init
 \-globalはマシンで一回だけでOK
 ```sh
 # これでgulpコマンドを実行できるようになります
+
 npm install --global gulp
 # プロジェクト直下で実行
 # これでgulpライブラリを使用できるようになります
@@ -62,6 +63,7 @@ jquery.jsとmain.jsとfoo.jsとhtmlも用意。TODO
 ブラウザで確認するため、browser-syncを導入。厳密には全然違うが簡易Webサーバーくらいの認識で良い。
 ```sh
 # browser-syncを追加
+
 npm install browser-sync --save-dev
 ```
 
