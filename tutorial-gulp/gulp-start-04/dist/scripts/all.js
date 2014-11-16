@@ -1,0 +1,1 @@
+!function(o){var n=function(){console.log("Hello FOOOO!!!!")};o(function(){o(".foo-hello").click(function(){n()})})}(jQuery),function(o){var n=function(){console.log("Hello MIYA!!!!")};o(function(){o(".main-hello").click(function(){n()})})}(jQuery);
