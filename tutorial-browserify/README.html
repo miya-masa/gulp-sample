@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+</head>
+<body>
+<h1 id="browserifyチュートリアル">browserifyチュートリアル</h1>
+<h2 id="browserifyを動かす">browserifyを動かす</h2>
+<p>最初にプロジェクトを作成しておく。</p>
+<p>プロジェクトの作成は<a href="../tutorial-gulp/README.html">ここ</a>を参照</p>
+<h4 id="browserifyの導入">browserifyの導入</h4>
+<p>browserifyをnpmでインストール</p>
+<pre class="sh"><code>// browserifyコマンドが利用できるようになる
+npm install browserify -g</code></pre>
+<h4 id="公開されているモジュール使う">公開されているモジュール使う</h4>
+<p>browserifyはnpmで公開されているモジュールを使うことが可能。 ここでは<strong>uniq</strong>というモジュールを使う。</p>
+<pre class="sh"><code># 実行時に使うので--saveにするとnpmのパッケージに管理に基づくが、
+# そうしなくても動作はする
+npm install uniq --save
+# ソースコードのディレクトリを作成
+mkdir -p app/scripts</code></pre>
+<p>scripts以下にmain.jsを作成し、 モジュールを読み込み、利用するコードを記述する</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// main.js</span>
+<span class="co">// npmで取り込んだuniqというライブラリの利用宣言</span>
+<span class="co">// 配列からユニークなものを抽出し、ソートする関数</span>
+<span class="kw">var</span> uniq = <span class="fu">require</span>(<span class="st">&#39;uniq&#39;</span>);
+<span class="kw">var</span> nums = [ <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span> ];
+<span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">uniq</span>(nums));</code></pre>
+<p>browserifyで変換(バンドル)する。</p>
+<pre class="sh"><code>browserify ./app/scripts/main.js &gt; ./app/scripts/bundle.js</code></pre>
+<p>bundle.jsを読み込むhtmlを作成し、実行する。</p>
+<p>ここではgulpのbrowser-syncを使って実行する</p>
+<pre class="sh"><code>npm install gulp browser-sync run-sequence --save-dev</code></pre>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="kw">var</span> gulp = <span class="fu">require</span>(<span class="st">&#39;gulp&#39;</span>);
+ <span class="kw">var</span> browserSync = <span class="fu">require</span>(<span class="st">&#39;browser-sync&#39;</span>);
+ 
+ <span class="co">//app以下をbrowserのルートとする</span>
+ <span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;default&#39;</span>, <span class="kw">function</span>(cb) {
+     <span class="fu">browserSync</span>({
+         <span class="dt">server</span>: {
+             <span class="dt">baseDir</span>: <span class="st">&#39;./app&#39;</span>
+         }
+     });
+     <span class="fu">cb</span>();
+ });</code></pre>
+<p>gulpを実行して確認する</p>
+<pre class="sh"><code>gulp</code></pre>
+<h4 id="モジュールを作成する">モジュールを作成する</h4>
+<p>自作のモジュールを作成する。 ./app/scripts/にfoo.jsを作成する</p>
+<pre><code>// module.exportsというオブジェクトに公開したいオブジェクトを紐づける
+module.exports = function(name) {
+    //&quot;Hello 名前!!!!&quot;を返す関数
+    return &#39;Hello &#39; + name + &#39;!!!!&#39;;
+};</code></pre>
+<p>main.jsにfoo.jsを読み込む処理を追加する</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="kw">var</span> uniq = <span class="fu">require</span>(<span class="st">&#39;uniq&#39;</span>);
+ <span class="co">// ファイル名の相対パスを記述する</span>
+ <span class="kw">var</span> foo = <span class="fu">require</span>(<span class="st">&#39;./foo&#39;</span>);
+ <span class="kw">var</span> nums = [ <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span> ];
+ <span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">uniq</span>(nums));
+ <span class="co">// 公開した関数を利用</span>
+ <span class="ot">console</span>.<span class="fu">log</span>(<span class="fu">foo</span>(<span class="st">&#39;Miya&#39;</span>));</code></pre>
+<p>バンドルして実行</p>
+<pre class="sh"><code>browserify app/scripts/main.js &gt; app/scripts/bundle.js
+gulp</code></pre>
+<h4 id="browserifyをgulpで利用する">browserifyをgulpで利用する</h4>
+<p>gulpと統合して使いやすくする。</p>
+<p><strong>注意!!!</strong> <del>gulp-browserifyは非推奨なので使わずbrowserifyのライブラリを利用すること!!!!</del> もう使えないらしい</p>
+<p>各種プラグインをnpmでインストール</p>
+<pre><code>gulp
+browser-sync
+run-sequence
+gulp-sourcemaps
+gulp-jshint
+jshint-stylish
+gulp-uglify
+gulp-cached
+browserify
+watchify
+vinyl-buffer
+vinyl-source-stream</code></pre>
+<dl>
+<dh>watchify</dh>
+<dd>
+browserifyをウォッチするモジュール
+</dd>
+<dh>vinyl-source-stream</dh>
+<dd>
+vinylのストリームを扱うモジュール。gulpはvinylというファイルストリームで扱う
+</dd>
+</dl>
+<p>browserifyタスクの定義</p>
+<ol style="list-style-type: decimal">
+<li>保存時に静的検査</li>
+<li>Browserifyでバンドル</li>
+<li>バンドルファイルの圧縮</li>
+<li>ソースマップの設定</li>
+<li>ブラウザ連携</li>
+</ol>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> gulp = <span class="fu">require</span>(<span class="st">&#39;gulp&#39;</span>);
+<span class="kw">var</span> browserSync = <span class="fu">require</span>(<span class="st">&#39;browser-sync&#39;</span>);
+<span class="kw">var</span> runSequence = <span class="fu">require</span>(<span class="st">&#39;run-sequence&#39;</span>);
+<span class="kw">var</span> sourcemaps = <span class="fu">require</span>(<span class="st">&#39;gulp-sourcemaps&#39;</span>);
+<span class="kw">var</span> jshint = <span class="fu">require</span>(<span class="st">&#39;gulp-jshint&#39;</span>);
+<span class="kw">var</span> stylish = <span class="fu">require</span>(<span class="st">&#39;jshint-stylish&#39;</span>);
+<span class="kw">var</span> uglify = <span class="fu">require</span>(<span class="st">&#39;gulp-uglify&#39;</span>);
+<span class="kw">var</span> cache = <span class="fu">require</span>(<span class="st">&#39;gulp-cached&#39;</span>);
+<span class="kw">var</span> browserify = <span class="fu">require</span>(<span class="st">&#39;browserify&#39;</span>);
+<span class="kw">var</span> watchify = <span class="fu">require</span>(<span class="st">&#39;watchify&#39;</span>);
+<span class="kw">var</span> buffer = <span class="fu">require</span>(<span class="st">&#39;vinyl-buffer&#39;</span>);
+<span class="kw">var</span> source = <span class="fu">require</span>(<span class="st">&#39;vinyl-source-stream&#39;</span>);
+
+
+<span class="co">//jshintのタスク.ライブラリとソースが分離するため別タスクで切り出す</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;jshint&#39;</span>, <span class="kw">function</span> () {
+  <span class="kw">return</span> <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/scripts/**/*.js&#39;</span>])
+    .<span class="fu">pipe</span>(<span class="fu">cache</span>(<span class="st">&#39;jslint&#39;</span>))
+    .<span class="fu">pipe</span>(<span class="fu">jshint</span>(<span class="st">&#39;.jshintrc&#39;</span>))
+    .<span class="fu">pipe</span>(<span class="ot">jshint</span>.<span class="fu">reporter</span>(stylish));
+});
+
+<span class="co">//ビルドタスク ここではscripts内のファイルを集めて</span>
+<span class="co">//連結とminify化</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;build&#39;</span>, [<span class="st">&#39;jshint&#39;</span>], <span class="kw">function</span> () {
+  <span class="fu">runSequence</span>(<span class="st">&#39;jshint&#39;</span>, <span class="st">&#39;browserify&#39;</span>)
+});
+
+<span class="co">//jsファイルを監視し、ブラウザのリロードとビルドを実行</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;watch&#39;</span>, [<span class="st">&#39;browser-sync&#39;</span>, <span class="st">&#39;build&#39;</span>], <span class="kw">function</span> () {
+  <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/scripts/**/*.js&#39;</span>, [<span class="st">&#39;build&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>]);
+  <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/**/*.html&#39;</span>, [<span class="st">&#39;build&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>]);
+});
+
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;default&#39;</span>, <span class="kw">function</span> () {
+  <span class="fu">runSequence</span>(<span class="st">&#39;watch&#39;</span>);
+});
+
+<span class="co">//app以下をbrowserのルートとする</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;browser-sync&#39;</span>, <span class="kw">function</span> (cb) {
+  <span class="fu">browserSync</span>({
+    <span class="dt">server</span>: {
+      <span class="dt">baseDir</span>: <span class="st">&#39;./app&#39;</span>
+    }
+  });
+  <span class="fu">cb</span>();
+});
+
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;browserify&#39;</span>, <span class="kw">function</span> (cb) {
+
+  <span class="co">// browserifyのオブジェクトの生成</span>
+  <span class="co">// watchify.argsはウォッチするための必須引数</span>
+  <span class="kw">var</span> b = <span class="fu">browserify</span>({
+    <span class="co">// ここから watchifyを使うための必須プロパティ</span>
+    <span class="dt">cache</span>: {},
+    <span class="dt">packageCache</span>: {},
+    <span class="dt">fullPaths</span>: <span class="kw">true</span>,
+    <span class="co">// ここまで watchifyを使うための必須プロパティ</span>
+    <span class="co">// debug フラグ。ソースマップを利用する場合trueにする</span>
+    <span class="dt">debug</span>: <span class="kw">true</span>,
+    <span class="co">// エントリファイル</span>
+    <span class="dt">entries</span>: <span class="st">&#39;./app/scripts/main.js&#39;</span>
+  });
+  <span class="co">// main.jsをバンドルするオブジェクトの生成</span>
+  <span class="kw">var</span> w = <span class="fu">watchify</span>(b);
+
+  <span class="kw">function</span> <span class="fu">bundle</span>() {
+    <span class="kw">return</span> w
+      <span class="co">// バンドルする</span>
+      .<span class="fu">bundle</span>()
+      <span class="co">//バンドルした文字列をbundle.jsの書き込みストリームへ</span>
+      <span class="co">// bundle()の戻りがvinylではないのでsourceでその差を吸収する</span>
+      .<span class="fu">pipe</span>(<span class="fu">source</span>(<span class="st">&#39;bundle.js&#39;</span>))
+      <span class="co">// ここからはvinyl-streamのやり取りなので、gulpのdestが利用できる</span>
+      <span class="co">// ./app/scriptsに出力する</span>
+      .<span class="fu">pipe</span>(<span class="fu">buffer</span>())
+      .<span class="fu">pipe</span>(<span class="ot">sourcemaps</span>.<span class="fu">init</span>({
+        <span class="co">// loadMapsはすでにsourcemapが定義されている場合、</span>
+        <span class="co">// それを利用する設定</span>
+        <span class="dt">loadMaps</span>: <span class="kw">true</span>
+      }))
+      .<span class="fu">pipe</span>(<span class="fu">uglify</span>())
+      .<span class="fu">pipe</span>(<span class="ot">sourcemaps</span>.<span class="fu">write</span>())
+      .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./app/scripts&#39;</span>));
+  }
+
+  <span class="co">// updateイベントはbundleに関連するファイルの更新をウォッチする</span>
+  <span class="ot">w</span>.<span class="fu">on</span>(<span class="st">&#39;update&#39;</span>, bundle);
+  <span class="co">// 通常実行時はbundleの実行結果を返す(通常のgulpのストリームを返す)</span>
+  <span class="kw">return</span> <span class="fu">bundle</span>();
+});</code></pre>
+<p>実行してみて以下の事柄を確認して見ましょう。</p>
+<ol style="list-style-type: decimal">
+<li>app以下のファイルを保存時にブラウザリロード</li>
+<li>app以下のファイルを保存時にビルド</li>
+<li>bundle.jsが圧縮されている</li>
+<li>コンソールにjshintの実行結果が出力されている</li>
+<li>ソースマップが有効になっている</li>
+</ol>
+<p>以上。</p>
+</body>
+</html>

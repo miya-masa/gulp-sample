@@ -1,62 +1,58 @@
-# browserifyƒ`ƒ…[ƒgƒŠƒAƒ‹
+# browserifyãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«
 
-## browserify‚ğ“®‚©‚·
+## browserifyã‚’å‹•ã‹ã™
 
-Å‰‚ÉƒvƒƒWƒFƒNƒg‚ğì¬‚µ‚Ä‚¨‚­B
+æœ€åˆã«ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã—ã¦ãŠãã€‚
 
-ƒvƒƒWƒFƒNƒg‚Ìì¬‚Í[‚±‚±](https://github.com/miya-masa/gulp-sample#%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90)‚ğQÆ
+ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆã¯[ã“ã“](../tutorial-gulp/README.html)ã‚’å‚ç…§
 
-#### browserify‚Ì“±“ü
-browserify‚ğnpm‚ÅƒCƒ“ƒXƒg[ƒ‹
+#### browserifyã®å°å…¥
+browserifyã‚’npmã§ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 ```sh 
+// browserifyã‚³ãƒãƒ³ãƒ‰ãŒåˆ©ç”¨ã§ãã‚‹ã‚ˆã†ã«ãªã‚‹
 npm install browserify -g
 ```
 
-#### ŒöŠJ‚³‚ê‚Ä‚¢‚éƒ‚ƒWƒ…[ƒ‹g‚¤
+#### å…¬é–‹ã•ã‚Œã¦ã„ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ä½¿ã†
 
-browserify‚Ínpm‚ÅŒöŠJ‚³‚ê‚Ä‚¢‚éƒ‚ƒWƒ…[ƒ‹‚ğg‚¤‚±‚Æ‚ª‰Â”\B
-‚±‚±‚Å‚Í**uniq**‚Æ‚¢‚¤ƒ‚ƒWƒ…[ƒ‹‚ğg‚¤B
+browserifyã¯npmã§å…¬é–‹ã•ã‚Œã¦ã„ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ä½¿ã†ã“ã¨ãŒå¯èƒ½ã€‚
+ã“ã“ã§ã¯**uniq**ã¨ã„ã†ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ä½¿ã†ã€‚
 
 ``` sh
-# Às‚Ég‚¤‚Ì‚Å--save‚É‚·‚é‚Ænpm‚ÌƒpƒbƒP[ƒW‚ÉŠÇ—‚ÉŠî‚Ã‚­‚ªA
-# ‚»‚¤‚µ‚È‚­‚Ä‚à“®ì‚Í‚·‚é
+# å®Ÿè¡Œæ™‚ã«ä½¿ã†ã®ã§--saveã«ã™ã‚‹ã¨npmã®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã«ç®¡ç†ã«åŸºã¥ããŒã€
+# ãã†ã—ãªãã¦ã‚‚å‹•ä½œã¯ã™ã‚‹
 npm install uniq --save
-# ƒ\[ƒXƒR[ƒh‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğì¬
+# ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆ
 mkdir -p app/scripts
 ```
-scriptsˆÈ‰º‚Émain.js‚ğì¬‚µA
-ƒ‚ƒWƒ…[ƒ‹‚ğ“Ç‚İ‚İA—˜—p‚·‚éƒR[ƒh‚ğ‹Lq‚·‚é
+scriptsä»¥ä¸‹ã«main.jsã‚’ä½œæˆã—ã€
+ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’èª­ã¿è¾¼ã¿ã€åˆ©ç”¨ã™ã‚‹ã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹
 ```javascript
 // main.js
-// npm‚Åæ‚è‚ñ‚¾uniq‚Æ‚¢‚¤ƒ‰ƒCƒuƒ‰ƒŠ‚Ì—˜—péŒ¾
-// ”z—ñ‚©‚çƒ†ƒj[ƒN‚È‚à‚Ì‚ğ’Šo‚µAƒ\[ƒg‚·‚éŠÖ”
+// npmã§å–ã‚Šè¾¼ã‚“ã uniqã¨ã„ã†ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åˆ©ç”¨å®£è¨€
+// é…åˆ—ã‹ã‚‰ãƒ¦ãƒ‹ãƒ¼ã‚¯ãªã‚‚ã®ã‚’æŠ½å‡ºã—ã€ã‚½ãƒ¼ãƒˆã™ã‚‹é–¢æ•°
 var uniq = require('uniq');
 var nums = [ 5, 2, 1, 3, 2, 5, 4, 2, 0, 1 ];
 console.log(uniq(nums));
 ```
 
-browserify‚Å•ÏŠ·(ƒoƒ“ƒhƒ‹)‚·‚éB
+browserifyã§å¤‰æ›(ãƒãƒ³ãƒ‰ãƒ«)ã™ã‚‹ã€‚
 ```sh
 browserify ./app/scripts/main.js > ./app/scripts/bundle.js
 ```
 
-bundle.js‚ğ“Ç‚İ‚Şhtml‚ğì¬‚µAÀs‚·‚éB
+bundle.jsã‚’èª­ã¿è¾¼ã‚€htmlã‚’ä½œæˆã—ã€å®Ÿè¡Œã™ã‚‹ã€‚
 
-‚±‚±‚Å‚Ígulp‚Ìbrowser-sync‚ğg‚Á‚ÄÀs‚·‚é
+ã“ã“ã§ã¯gulpã®browser-syncã‚’ä½¿ã£ã¦å®Ÿè¡Œã™ã‚‹
 ```sh
 npm install gulp browser-sync run-sequence --save-dev
 ```
 ``` javascript
  var gulp = require('gulp');
  var browserSync = require('browser-sync');
- var runSequence = require('run-sequence');
  
- gulp.task('default', function() {
-     runSequence('browser-sync');
- });
- 
- //appˆÈ‰º‚ğbrowser‚Ìƒ‹[ƒg‚Æ‚·‚é
- gulp.task('browser-sync', function(cb) {
+ //appä»¥ä¸‹ã‚’browserã®ãƒ«ãƒ¼ãƒˆã¨ã™ã‚‹
+ gulp.task('default', function(cb) {
      browserSync({
          server: {
              baseDir: './app'
@@ -65,206 +61,180 @@ npm install gulp browser-sync run-sequence --save-dev
      cb();
  });
 ```
-gulp‚ğÀs‚µ‚ÄŠm”F‚·‚é
+gulpã‚’å®Ÿè¡Œã—ã¦ç¢ºèªã™ã‚‹
 ```sh
 gulp
 ```
 
-#### ƒ‚ƒWƒ…[ƒ‹‚ğì¬‚·‚é
+#### ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ä½œæˆã™ã‚‹
 
-©ì‚Ìƒ‚ƒWƒ…[ƒ‹‚ğì¬‚·‚éB
-./app/scripts/‚Éfoo.js‚ğì¬‚·‚é
+è‡ªä½œã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ä½œæˆã™ã‚‹ã€‚
+./app/scripts/ã«foo.jsã‚’ä½œæˆã™ã‚‹
 
 ```
-// module.exports‚Æ‚¢‚¤ƒIƒuƒWƒFƒNƒg‚ÉŒöŠJ‚µ‚½‚¢ƒIƒuƒWƒFƒNƒg‚ğ•R‚Ã‚¯‚é
+// module.exportsã¨ã„ã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å…¬é–‹ã—ãŸã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç´ã¥ã‘ã‚‹
 module.exports = function(name) {
-    //"Hello –¼‘O!!!!"‚ğ•Ô‚·ŠÖ”
+    //"Hello åå‰!!!!"ã‚’è¿”ã™é–¢æ•°
     return 'Hello ' + name + '!!!!';
 };
 ```
 
-main.js‚Éfoo.js‚ğ“Ç‚İ‚Şˆ—‚ğ’Ç‰Á‚·‚é
+main.jsã«foo.jsã‚’èª­ã¿è¾¼ã‚€å‡¦ç†ã‚’è¿½åŠ ã™ã‚‹
 
 ```javascript
  var uniq = require('uniq');
- // ƒtƒ@ƒCƒ‹–¼‚Ì‘Š‘ÎƒpƒX‚ğ‹Lq‚·‚é
- var foo = require('./foo.js');
+ // ãƒ•ã‚¡ã‚¤ãƒ«åã®ç›¸å¯¾ãƒ‘ã‚¹ã‚’è¨˜è¿°ã™ã‚‹
+ var foo = require('./foo');
  var nums = [ 5, 2, 1, 3, 2, 5, 4, 2, 0, 1 ];
  console.log(uniq(nums));
- // ŒöŠJ‚µ‚½ŠÖ”‚ğ—˜—p
+ // å…¬é–‹ã—ãŸé–¢æ•°ã‚’åˆ©ç”¨
  console.log(foo('Miya'));
 ```
 
-ƒoƒ“ƒhƒ‹‚µ‚ÄÀs
+ãƒãƒ³ãƒ‰ãƒ«ã—ã¦å®Ÿè¡Œ
 ``` sh 
 browserify app/scripts/main.js > app/scripts/bundle.js
 gulp
 ```
 
-#### browserify‚ğgulp‚Å—˜—p‚·‚é
+#### browserifyã‚’gulpã§åˆ©ç”¨ã™ã‚‹
 
-gulp‚Æ“‡‚µ‚Äg‚¢‚â‚·‚­‚·‚éB
+gulpã¨çµ±åˆã—ã¦ä½¿ã„ã‚„ã™ãã™ã‚‹ã€‚
 
-**’ˆÓ!!!**
-gulp-browserify‚Í”ñ„§‚È‚Ì‚Åg‚í‚¸browserify‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚ğ—˜—p‚·‚é‚±‚Æ!!!!
+**æ³¨æ„!!!**
+~~gulp-browserifyã¯éæ¨å¥¨ãªã®ã§ä½¿ã‚ãšbrowserifyã®ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’åˆ©ç”¨ã™ã‚‹ã“ã¨!!!!~~
+ã‚‚ã†ä½¿ãˆãªã„ã‚‰ã—ã„
 
-Šeíƒvƒ‰ƒOƒCƒ“‚ğƒCƒ“ƒXƒg[ƒ‹
-```sh
-npm install -g watchify
-npm install browserify watchify vinyl-source-stream --save-dev
+å„ç¨®ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’npmã§ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
+```
+gulp
+browser-sync
+run-sequence
+gulp-sourcemaps
+gulp-jshint
+jshint-stylish
+gulp-uglify
+gulp-cached
+browserify
+watchify
+vinyl-buffer
+vinyl-source-stream
 ```
 <dl>
 <dh>watchify</dh>
-<dd>browserify‚ğƒEƒHƒbƒ`‚·‚éƒ‚ƒWƒ…[ƒ‹</dd>
+<dd>browserifyã‚’ã‚¦ã‚©ãƒƒãƒã™ã‚‹ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«</dd>
 <dh>vinyl-source-stream</dh>
-<dd>vinyl‚ÌƒXƒgƒŠ[ƒ€‚ğˆµ‚¤ƒ‚ƒWƒ…[ƒ‹Bgulp‚Ívinyl‚Æ‚¢‚¤ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€‚Åˆµ‚¤</dd>
+<dd>vinylã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’æ‰±ã†ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã€‚gulpã¯vinylã¨ã„ã†ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ ã§æ‰±ã†</dd>
 </dl>
 
-browserifyƒ^ƒXƒN‚Ì’è‹`
+browserifyã‚¿ã‚¹ã‚¯ã®å®šç¾©
+
+1. ä¿å­˜æ™‚ã«é™çš„æ¤œæŸ»
+1. Browserifyã§ãƒãƒ³ãƒ‰ãƒ«
+1. ãƒãƒ³ãƒ‰ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã®åœ§ç¸®
+1. ã‚½ãƒ¼ã‚¹ãƒãƒƒãƒ—ã®è¨­å®š
+1. ãƒ–ãƒ©ã‚¦ã‚¶é€£æº
 
 ```javascript
- var gulp = require('gulp');
- var browserSync = require('browser-sync');
- var runSequence = require('run-sequence');
- var source = require('vinyl-source-stream');
- var watchify = require('watchify');
- var browserify = require('browserify');
- 
- //...È—ª
- 
- gulp.task('browserify', function(cb) {
- 
-     // browserify‚ÌƒIƒuƒWƒFƒNƒg‚Ì¶¬
-     // watchify.args‚ÍƒEƒHƒbƒ`‚·‚é‚½‚ß‚Ì•K{ˆø”
-     var bsBundler = browserify({
-         // ‚±‚±‚©‚ç watchify‚ğg‚¤‚½‚ß‚Ì•K{ƒvƒƒpƒeƒB
-         cache: {},
-         packageCache: {},
-         fullPaths: true,
-         // ‚±‚±‚Ü‚Å watchify‚ğg‚¤‚½‚ß‚Ì•K{ƒvƒƒpƒeƒB
-         // debug ƒtƒ‰ƒOBƒ\[ƒXƒ}ƒbƒv‚ğ—˜—p‚·‚éê‡true‚É‚·‚é
-         debug: true,
-         // ƒGƒ“ƒgƒŠƒtƒ@ƒCƒ‹
-         entries: './app/scripts/main.js'
-     });
-     // main.js‚ğƒoƒ“ƒhƒ‹‚·‚éƒIƒuƒWƒFƒNƒg‚Ì¶¬
-     var watchBundler = watchify(bsBundler);
- 
-     // ƒoƒ“ƒhƒ‹‚·‚éŠÖ”
-     function bundle() {
-         return watchBundler
-             // ƒoƒ“ƒhƒ‹‚·‚é
-             .bundle()
-             //ƒoƒ“ƒhƒ‹‚µ‚½•¶š—ñ‚ğbundle.js‚Ì‘‚«‚İƒXƒgƒŠ[ƒ€‚Ö
-             // bundle()‚Ì–ß‚è‚ªvinyl‚Å‚Í‚È‚¢‚Ì‚Åsource‚Å‚»‚Ì·‚ğ‹zû‚·‚é
-             .pipe(source('bundle.js'))
-             // ‚±‚±‚©‚ç‚Ívinyl-stream‚Ì‚â‚èæ‚è‚È‚Ì‚ÅAgulp‚Ìdest‚ª—˜—p‚Å‚«‚é
-             // ./app/scripts‚Éo—Í‚·‚é
-             .pipe(gulp.dest('./app/scripts'));
-     }
- 
-     // updateƒCƒxƒ“ƒg‚Íbundle‚ÉŠÖ˜A‚·‚éƒtƒ@ƒCƒ‹‚ÌXV‚ğƒEƒHƒbƒ`‚·‚é
-     watchBundler.on('update', bundle);
-     // ’ÊíÀs‚Íbundle‚ÌÀsŒ‹‰Ê‚ğ•Ô‚·(’Êí‚Ìgulp‚ÌƒXƒgƒŠ[ƒ€‚ğ•Ô‚·)
-     return bundle();
- });
-```
-
-‚±‚±‚Ü‚Åİ’è‚·‚é‚ÆAbrowserifyƒ^ƒXƒN‚Åƒoƒ“ƒhƒ‹‚ğ‚·‚é‚Æ‚±‚ë‚Ü‚Å‚ÍƒEƒHƒbƒ`‚Å‚«‚éB
-
-#### gulp‚Æ‚³‚ç‚É—Z‡‚·‚é
-
-‚±‚±‚Å‚Í‚³‚ç‚ÉA
-
-* jshint
-* uglify
-* browser-sync
-
-‚ğ‚³‚ç‚ÉƒEƒHƒbƒ`‘ÎÛ‚É’Ç‰Á‚·‚éB
-
-##### jshint‚Ìƒ^ƒXƒN‚ğ’Ç‰Á
-
-```javascript
-// ... È—ª
+var gulp = require('gulp');
+var browserSync = require('browser-sync');
+var runSequence = require('run-sequence');
+var sourcemaps = require('gulp-sourcemaps');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-// ... È—ª
-
-//jshint‚Ìƒ^ƒXƒN.
-gulp.task('jshint', function() {
-    return gulp.src(['./app/scripts/**/*.js'])
-        .pipe(jshint('.jshintrc'))
-        .pipe(jshint.reporter(stylish));
-});
-// ... È—ª
-```
-##### uglify(ˆ³k‚Ìİ’è)
-
-browserify‚ª¶¬‚µ‚½bundle.js‚É‘Î‚µ‚Äˆ³k‚ğ‚©‚¯‚éB‚»‚ÌÛ‚Ésourcemap‚ª•ö‚ê‚È‚¢‚æ‚¤‚Éİ’è‚ğ’Ç‰Á‚·‚é•K—v‚ª‚ ‚éB
-
-``` javascript
-// ...È—ª
-var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
-
+var cache = require('gulp-cached');
+var browserify = require('browserify');
+var watchify = require('watchify');
 var buffer = require('vinyl-buffer');
-// ...È—ª
+var source = require('vinyl-source-stream');
 
-gulp.task('browserify', function(cb) {
 
-    // ...È—ª
+//jshintã®ã‚¿ã‚¹ã‚¯.ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¨ã‚½ãƒ¼ã‚¹ãŒåˆ†é›¢ã™ã‚‹ãŸã‚åˆ¥ã‚¿ã‚¹ã‚¯ã§åˆ‡ã‚Šå‡ºã™
+gulp.task('jshint', function () {
+  return gulp.src(['./app/scripts/**/*.js'])
+    .pipe(cache('jslint'))
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter(stylish));
+});
 
-    function bundle() {
-        return watchBundler
-            // ƒoƒ“ƒhƒ‹‚·‚é
-            .bundle()
-            //ƒoƒ“ƒhƒ‹‚µ‚½•¶š—ñ‚ğbundle.js‚Ì‘‚«‚İƒXƒgƒŠ[ƒ€‚Ö
-            // bundle()‚Ì–ß‚è‚ªvinyl‚Å‚Í‚È‚¢‚Ì‚Åsource‚Å‚»‚Ì·‚ğ‹zû‚·‚é
-            .pipe(source('bundle.js'))
-            // sourcemaps‚ÍstremaŒ`®‚Í‘Î‰‚µ‚Ä‚¢‚È‚¢‚Ì‚Åbuffer‚ğ‹²‚ŞB
-            // Ú×‚Ínode‚ÌƒXƒgƒŠ[ƒ€‚ğQÆ‚·‚é
-            .pipe(buffer())
-            .pipe(sourcemaps.init({
-                // loadMaps‚Í‚·‚Å‚Ésourcemap‚ª’è‹`‚³‚ê‚Ä‚¢‚éê‡A
-                // ‚»‚ê‚ğ—˜—p‚·‚éİ’è
-                loadMaps: true
-            }))
-            .pipe(uglify())
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest('./app/scripts'));
+//ãƒ“ãƒ«ãƒ‰ã‚¿ã‚¹ã‚¯ ã“ã“ã§ã¯scriptså†…ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é›†ã‚ã¦
+//é€£çµã¨minifyåŒ–
+gulp.task('build', ['jshint'], function () {
+  runSequence('jshint', 'browserify')
+});
+
+//jsãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç›£è¦–ã—ã€ãƒ–ãƒ©ã‚¦ã‚¶ã®ãƒªãƒ­ãƒ¼ãƒ‰ã¨ãƒ“ãƒ«ãƒ‰ã‚’å®Ÿè¡Œ
+gulp.task('watch', ['browser-sync', 'build'], function () {
+  gulp.watch('app/scripts/**/*.js', ['build', browserSync.reload]);
+  gulp.watch('app/**/*.html', ['build', browserSync.reload]);
+});
+
+gulp.task('default', function () {
+  runSequence('watch');
+});
+
+//appä»¥ä¸‹ã‚’browserã®ãƒ«ãƒ¼ãƒˆã¨ã™ã‚‹
+gulp.task('browser-sync', function (cb) {
+  browserSync({
+    server: {
+      baseDir: './app'
     }
-    // ... È—ª
+  });
+  cb();
+});
+
+gulp.task('browserify', function (cb) {
+
+  // browserifyã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
+  // watchify.argsã¯ã‚¦ã‚©ãƒƒãƒã™ã‚‹ãŸã‚ã®å¿…é ˆå¼•æ•°
+  var b = browserify({
+    // ã“ã“ã‹ã‚‰ watchifyã‚’ä½¿ã†ãŸã‚ã®å¿…é ˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+    cache: {},
+    packageCache: {},
+    fullPaths: true,
+    // ã“ã“ã¾ã§ watchifyã‚’ä½¿ã†ãŸã‚ã®å¿…é ˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
+    // debug ãƒ•ãƒ©ã‚°ã€‚ã‚½ãƒ¼ã‚¹ãƒãƒƒãƒ—ã‚’åˆ©ç”¨ã™ã‚‹å ´åˆtrueã«ã™ã‚‹
+    debug: true,
+    // ã‚¨ãƒ³ãƒˆãƒªãƒ•ã‚¡ã‚¤ãƒ«
+    entries: './app/scripts/main.js'
+  });
+  // main.jsã‚’ãƒãƒ³ãƒ‰ãƒ«ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
+  var w = watchify(b);
+
+  function bundle() {
+    return w
+      // ãƒãƒ³ãƒ‰ãƒ«ã™ã‚‹
+      .bundle()
+      //ãƒãƒ³ãƒ‰ãƒ«ã—ãŸæ–‡å­—åˆ—ã‚’bundle.jsã®æ›¸ãè¾¼ã¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã¸
+      // bundle()ã®æˆ»ã‚ŠãŒvinylã§ã¯ãªã„ã®ã§sourceã§ãã®å·®ã‚’å¸åã™ã‚‹
+      .pipe(source('bundle.js'))
+      // ã“ã“ã‹ã‚‰ã¯vinyl-streamã®ã‚„ã‚Šå–ã‚Šãªã®ã§ã€gulpã®destãŒåˆ©ç”¨ã§ãã‚‹
+      // ./app/scriptsã«å‡ºåŠ›ã™ã‚‹
+      .pipe(buffer())
+      .pipe(sourcemaps.init({
+        // loadMapsã¯ã™ã§ã«sourcemapãŒå®šç¾©ã•ã‚Œã¦ã„ã‚‹å ´åˆã€
+        // ãã‚Œã‚’åˆ©ç”¨ã™ã‚‹è¨­å®š
+        loadMaps: true
+      }))
+      .pipe(uglify())
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('./app/scripts'));
+  }
+
+  // updateã‚¤ãƒ™ãƒ³ãƒˆã¯bundleã«é–¢é€£ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›´æ–°ã‚’ã‚¦ã‚©ãƒƒãƒã™ã‚‹
+  w.on('update', bundle);
+  // é€šå¸¸å®Ÿè¡Œæ™‚ã¯bundleã®å®Ÿè¡Œçµæœã‚’è¿”ã™(é€šå¸¸ã®gulpã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’è¿”ã™)
+  return bundle();
 });
 ```
 
-##### ƒ^ƒXƒN‚ğ‚Ü‚Æ‚ß‚é
+å®Ÿè¡Œã—ã¦ã¿ã¦ä»¥ä¸‹ã®äº‹æŸ„ã‚’ç¢ºèªã—ã¦è¦‹ã¾ã—ã‚‡ã†ã€‚
 
-ÅŒã‚Éƒrƒ‹ƒh‚ğ‚Ü‚Æ‚ß‚é
+1. appä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜æ™‚ã«ãƒ–ãƒ©ã‚¦ã‚¶ãƒªãƒ­ãƒ¼ãƒ‰
+1. appä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜æ™‚ã«ãƒ“ãƒ«ãƒ‰
+1. bundle.jsãŒåœ§ç¸®ã•ã‚Œã¦ã„ã‚‹
+1. ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«jshintã®å®Ÿè¡ŒçµæœãŒå‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹
+1. ã‚½ãƒ¼ã‚¹ãƒãƒƒãƒ—ãŒæœ‰åŠ¹ã«ãªã£ã¦ã„ã‚‹
 
-``` javascript
-//ƒrƒ‹ƒhƒ^ƒXƒN ‚±‚±‚Å‚Íscripts“à‚Ìƒtƒ@ƒCƒ‹‚ğW‚ß‚Ä
-//˜AŒ‹‚Æminify‰»
-gulp.task('build', ['jshint'], function() {
-    runSequence('jshint', 'browserify')
-});
-
-//jsƒtƒ@ƒCƒ‹‚ğŠÄ‹‚µAƒuƒ‰ƒEƒU‚ÌƒŠƒ[ƒh‚Æƒrƒ‹ƒh‚ğÀs
-gulp.task('watch', ['browser-sync', 'build'], function() {
-    gulp.watch('app/scripts/**/*.js', ['build', browserSync.reload]);
-    gulp.watch('app/**/*.html', ['build', browserSync.reload]);
-});
-
-gulp.task('default', function() {
-    runSequence('watch');
-});
-```
-
-Às‚µ‚Ä‚İ‚ÄˆÈ‰º‚Ì–•¿‚ğŠm”F‚µ‚ÄŒ©‚Ü‚µ‚å‚¤B
-
-1. appˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚Éƒuƒ‰ƒEƒUƒŠƒ[ƒh
-1. appˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚Éƒrƒ‹ƒh
-1. bundle.js‚ªˆ³k‚³‚ê‚Ä‚¢‚é
-1. ƒRƒ“ƒ\[ƒ‹‚Éjshint‚ÌÀsŒ‹‰Ê‚ªo—Í‚³‚ê‚Ä‚¢‚é
-1. ƒ\[ƒXƒ}ƒbƒv‚ª—LŒø‚É‚È‚Á‚Ä‚¢‚é
-
-ˆÈãB
+ä»¥ä¸Šã€‚

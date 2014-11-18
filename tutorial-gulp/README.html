@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="../style.css" type="text/css" />
+</head>
+<body>
+<h1 id="gulpチュートリアル">gulpチュートリアル</h1>
+<h2 id="プロジェクトの作成">プロジェクトの作成</h2>
+<h4 id="nodeをインストール">nodeをインストール</h4>
+<p>nodeのWebサイトからインストール。nodeをインストールすることでnodeコマンドとnpmコマンドが利用できるようになる # .ignoreファイル #### プロジェクトの作成 適当なディレクトリを作成し、Gitリポジトリ管理する。</p>
+<pre class="sh"><code>mkdir gulp-sample
+cd gulp-sample
+git init</code></pre>
+<p>.gitignoreにnode_modules/を加える</p>
+<pre><code># .ignoreファイル
+node_modules/
+npm-debug.log</code></pre>
+<h4 id="package.jsonのひな形作成">package.jsonのひな形作成</h4>
+<p>プロジェクトのルートで実行する。 対話があるが、適当でOK</p>
+<pre class="sh"><code>npm init</code></pre>
+<h2 id="gulpを触ってみよう">gulpを触ってみよう</h2>
+<h4 id="gulpをインストール">gulpをインストール</h4>
+<p>-globalはマシンで一回だけでOK</p>
+<pre class="sh"><code># これでgulpコマンドを実行できるようになります
+npm install --global gulp
+# プロジェクト直下で実行
+# これでgulpライブラリを使用できるようになります
+npm install gulp --save-dev </code></pre>
+<p>--save-devをつけるとpackage.jsonのdevDependenciesに追加してくれる。</p>
+<p>--saveだとdependencies。 #### gulpfile.jsの作成 ビルドの設定ファイルを記述する。プロジェクトのルートに<strong>gulpfile.js</strong>という名前で保存すること。 下記は、コンソールに文字列を表示するタスク。</p>
+<pre class="js"><code> var gulp = require(&#39;gulp&#39;);
+ // defaultはデフォルトタスク
+ gulp.task(&#39;default&#39;, function() {
+   console.log(&#39;Hello World!!!!&#39;);
+ });
+
+ gulp.task(&#39;mytask&#39;, function() {
+   console.log(&#39;Hello MyTask!!!!&#39;);
+ });</code></pre>
+<h4 id="gulpの実行">gulpの実行</h4>
+<p>タスクを実行する。プロジェクトルートで下記コマンドを実行する</p>
+<pre class="sh"><code># タスク名を指定しないとdefaultが実行される
+gulp 
+# タスク名を指定すると該当するタスクが実行される
+gulp mytask</code></pre>
+<h2 id="gulpで今までの開発">gulpで今までの開発</h2>
+<p>jquery.jsとmain.jsとfoo.jsとhtmlも用意。</p>
+<h4 id="プラグインの準備">プラグインの準備</h4>
+<p>ブラウザで確認するため、browser-syncを導入。厳密には全然違うが簡易Webサーバーくらいの認識で良い。</p>
+<pre class="sh"><code># browser-syncを追加
+npm install browser-sync --save-dev</code></pre>
+<h4 id="gulpfile.jsの設定">gulpfile.jsの設定</h4>
+<p>以下のタスクを追加する。</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="kw">var</span> browserSync = <span class="fu">require</span>(<span class="st">&#39;browser-sync&#39;</span>);
+ <span class="co">//...省略</span>
+ <span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;browser-sync&#39;</span>, <span class="kw">function</span>() {
+     <span class="fu">browserSync</span>({
+         <span class="dt">server</span>: {
+           <span class="co">//アプリケーションルートのディレクトリ</span>
+             <span class="dt">baseDir</span>: <span class="st">&#39;./app&#39;</span>
+         }
+     });
+ });</code></pre>
+<h4 id="実行">実行</h4>
+<pre class="sh"><code>gulp browser-sync</code></pre>
+<h4 id="watch">watch</h4>
+<p>gulpにはファイルの保存を監視し、タスク(又は関数)を実行する<strong>watch</strong>という機能がある。</p>
+<p>javascriptかhtml等の保存をフックして、ブラウザを更新するタスクを追加する。</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// 第二引数の配列で依存関係を追加できる</span>
+ <span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;watch&#39;</span>, [<span class="st">&#39;browser-sync&#39;</span>], <span class="kw">function</span>() {
+     <span class="co">// ブラウザのリロードはbrowserSync.reload関数を利用する</span>
+     <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/scripts/**/*.js&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>);
+     <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/**/*.html&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>);
+ });</code></pre>
+<pre class="sh"><code>gulp watch</code></pre>
+<p>jsを保存してみて、画面が更新されたら成功。</p>
+<h2 id="gulpでビルド">gulpでビルド</h2>
+<p>gulpを利用して、</p>
+<ul>
+<li>javascriptの連結</li>
+<li>javascriptの圧縮</li>
+<li>成果物の出力</li>
+</ul>
+<p>をやってみる</p>
+<h4 id="プラグインの準備-1">プラグインの準備</h4>
+<p>プラグインをインストールする。基本的にはnpmコマンドでインストールする。</p>
+<pre class="sh"><code># プロジェクトディレクトリで実行
+# 連結用のプラグインと圧縮用のプラグインと
+# 同期実行用のプラグイン用意
+npm install モジュール名 --save-dev</code></pre>
+<p>モジュールは以下のとおり</p>
+<pre><code>browser-sync
+del
+event-stream
+gulp
+gulp-concat
+gulp-uglify
+run-sequence</code></pre>
+<h4 id="タスクを書く">タスクを書く</h4>
+<p>プラグインを読み込んで、ビルドするタスクの最小セット。</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">//プラグイン読み込み部分</span>
+<span class="co">//詳細は各種プラグインのウェブサイト参照の事</span>
+<span class="kw">var</span> gulp = <span class="fu">require</span>(<span class="st">&#39;gulp&#39;</span>);
+<span class="kw">var</span> browserSync = <span class="fu">require</span>(<span class="st">&#39;browser-sync&#39;</span>);
+<span class="co">//ここから追加分</span>
+<span class="co">//minifyする</span>
+<span class="kw">var</span> uglify = <span class="fu">require</span>(<span class="st">&#39;gulp-uglify&#39;</span>);
+<span class="co">//連結する</span>
+<span class="kw">var</span> concat = <span class="fu">require</span>(<span class="st">&#39;gulp-concat&#39;</span>);
+<span class="co">//実行制御</span>
+<span class="kw">var</span> runSequence = <span class="fu">require</span>(<span class="st">&#39;run-sequence&#39;</span>);
+<span class="co">//ファイルやディレクトリの削除</span>
+<span class="kw">var</span> del = <span class="fu">require</span>(<span class="st">&#39;del&#39;</span>);
+<span class="co">// ストリームの加工</span>
+<span class="kw">var</span> es = <span class="fu">require</span>(<span class="st">&#39;event-stream&#39;</span>);
+
+<span class="co">//ビルドタスク ここではscripts内のファイルを集めて</span>
+<span class="co">//連結とminify化</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;scripts&#39;</span>, <span class="kw">function</span> () {
+  <span class="kw">return</span> <span class="ot">es</span>.<span class="fu">merge</span>(
+    <span class="co">// ライブラリの移動</span>
+    <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/lib/**/*.js&#39;</span>])
+    .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./dist/scripts/lib&#39;</span>)),
+    <span class="co">// スクリプトの圧縮</span>
+    <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/scripts/**/*.js&#39;</span>])
+    .<span class="fu">pipe</span>(<span class="fu">concat</span>(<span class="st">&#39;all.js&#39;</span>))
+    .<span class="fu">pipe</span>(<span class="fu">uglify</span>())
+    .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./dist/scripts&#39;</span>))
+  );
+});
+
+<span class="co">//htmlをdistに移動</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;html&#39;</span>, <span class="kw">function</span> () {
+  <span class="kw">return</span> <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/**/*.html&#39;</span>])
+    .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./dist&#39;</span>));
+});
+
+<span class="co">//distを削除する</span>
+<span class="co">//cbを指定して、終了を通知</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;clean&#39;</span>, <span class="kw">function</span> (cb) {
+  <span class="fu">del</span>([<span class="st">&#39;dist&#39;</span>], cb);
+});
+
+<span class="co">//各種ビルドを実行する</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;build&#39;</span>, <span class="kw">function</span> () {
+  <span class="fu">runSequence</span>(<span class="st">&#39;clean&#39;</span>, [<span class="st">&#39;scripts&#39;</span>, <span class="st">&#39;html&#39;</span>]);
+});
+
+<span class="co">//成果物先をbrowserのルートとする</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;browser-sync&#39;</span>, <span class="kw">function</span> (cb) {
+  <span class="fu">browserSync</span>({
+    <span class="dt">server</span>: {
+      <span class="dt">baseDir</span>: <span class="st">&#39;./dist&#39;</span>
+    }
+  });
+  <span class="fu">cb</span>();
+});
+
+<span class="co">//jsファイルを監視し、ブラウザのリロードとビルドを実行</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;watch&#39;</span>, [<span class="st">&#39;browser-sync&#39;</span>, <span class="st">&#39;build&#39;</span>], <span class="kw">function</span> () {
+  <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/scripts/**/*.js&#39;</span>, [<span class="st">&#39;build&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>]);
+  <span class="ot">gulp</span>.<span class="fu">watch</span>(<span class="st">&#39;app/**/*.html&#39;</span>, [<span class="st">&#39;build&#39;</span>, <span class="ot">browserSync</span>.<span class="fu">reload</span>]);
+});
+
+<span class="co">//ビルドとwatchをデフォルトタスクにしている。</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;default&#39;</span>, <span class="kw">function</span> () {
+  <span class="fu">runSequence</span>(<span class="st">&#39;watch&#39;</span>);
+});</code></pre>
+<h4 id="実行-1">実行</h4>
+<pre class="sh"><code>gulp</code></pre>
+<p>ビルド出来ました？</p>
+<h2 id="gulpで開発">gulpで開発</h2>
+<h4 id="より良くするために">より良くするために</h4>
+<p>圧縮された状態だとデバッグやりづらい(sourcemap)</p>
+<p>静的検査とかもやりたい(JSHint)</p>
+<p>というわけで * sourcemapの出力 * JSHintの実行 を盛り込む</p>
+<h4 id="pluginの準備">pluginの準備</h4>
+<p>プラグインをインストールする。 npmコマンドで以下のモジュールを追加でインストール</p>
+<pre><code>gulp-sourcemaps
+gulp-jshint
+gulp-cached
+jshint-stylish</code></pre>
+<h4 id="jshintのタスク設定">jshintのタスク設定</h4>
+<ol style="list-style-type: decimal">
+<li>jshint実行用のタスク作成</li>
+<li>scriptのビルドの依存に設定する</li>
+</ol>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="co">// ...省略</span>
+
+<span class="co">//jshintのタスク.ライブラリとソースが分離するため別タスクで切り出す</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;jshint&#39;</span>, <span class="kw">function</span> () {
+  <span class="kw">return</span> <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/scripts/**/*.js&#39;</span>])
+  <span class="co">//保存されたファイルだけに対して静的検査をかけるために</span>
+  <span class="co">// cacheというプラグインを利用する</span>
+    .<span class="fu">pipe</span>(<span class="fu">cache</span>(<span class="st">&#39;jslint&#39;</span>))
+    .<span class="fu">pipe</span>(<span class="fu">jshint</span>(<span class="st">&#39;.jshintrc&#39;</span>))
+    .<span class="fu">pipe</span>(<span class="ot">jshint</span>.<span class="fu">reporter</span>(stylish));
+});
+
+ <span class="co">// ...省略</span>
+ <span class="co">// 依存関係にjshintを追加</span>
+ <span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;scripts&#39;</span>, [<span class="st">&#39;jshint&#39;</span>], <span class="kw">function</span>() {
+   <span class="co">// ...省略</span>
+ });
+ <span class="co">// ...省略</span></code></pre>
+<h4 id="sourcemapのタスク設定">sourcemapのタスク設定</h4>
+<p>scriptsのビルドタスクでsourcemapの設定を行う</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"> <span class="co">// ...省略</span>
+<span class="co">//ビルドタスク ここではscripts内のファイルを集めて</span>
+<span class="co">//連結とminify化</span>
+<span class="ot">gulp</span>.<span class="fu">task</span>(<span class="st">&#39;scripts&#39;</span>, [<span class="st">&#39;jshint&#39;</span>], <span class="kw">function</span> () {
+  <span class="kw">return</span> <span class="ot">es</span>.<span class="fu">merge</span>(
+    <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/lib/**/*.js&#39;</span>])
+    .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./dist/scripts/lib&#39;</span>)),
+
+    <span class="ot">gulp</span>.<span class="fu">src</span>([<span class="st">&#39;./app/scripts/**/*.js&#39;</span>])
+    <span class="co">//sourcemapの初期化</span>
+    .<span class="fu">pipe</span>(<span class="ot">sourcemaps</span>.<span class="fu">init</span>())
+    <span class="co">//連結</span>
+    .<span class="fu">pipe</span>(<span class="fu">concat</span>(<span class="st">&#39;all.js&#39;</span>))
+    <span class="co">//圧縮</span>
+    .<span class="fu">pipe</span>(<span class="fu">uglify</span>())
+    <span class="co">//ソースマップの出力</span>
+    .<span class="fu">pipe</span>(<span class="ot">sourcemaps</span>.<span class="fu">write</span>())
+    .<span class="fu">pipe</span>(<span class="ot">gulp</span>.<span class="fu">dest</span>(<span class="st">&#39;./dist/scripts&#39;</span>))
+  );
+});</code></pre>
+<h4 id="実行-2">実行</h4>
+<pre class="sh"><code>gulp watch</code></pre>
+<p>終了</p>
+</body>
+</html>
